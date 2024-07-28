@@ -114,7 +114,7 @@ export class PokemonService {
       throw new BadRequestException(`Pokemon con id ${id} no encontrado`);
     }
 
-    return;
+    return { message: `Pokemon eliminado` };
   }
 
   private handleException(error: any) {
