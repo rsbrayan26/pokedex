@@ -99,8 +99,22 @@ export class PokemonService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pokemon`;
+  async remove(id: string) {
+    // try {
+    //   const pokemon = await this.pokemonModel.findById(id);
+    //   await pokemon.deleteOne();
+    //   return { message: `Pokemon ${pokemon.name} eliminado` };
+    // } catch (error) {
+    //   this.handleException(error);
+    // }
+    const { deletedCount, acknowledged } = await this.pokemonModel.deleteOne({
+      _id: id,
+    });
+    if (deletedCount === 0) {
+      throw new BadRequestException(`Pokemon con id ${id} no encontrado`);
+    }
+
+    return;
   }
 
   private handleException(error: any) {
