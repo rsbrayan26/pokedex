@@ -44,7 +44,7 @@ export class PokemonService {
       .skip(offset)
       .limit(limit)
       .select("-__v")
-      .exec(); // Usa exec() para manejar el resultado de manera más explícita
+      .exec();
   }
 
   async findOne(searchPokemon: string) {
