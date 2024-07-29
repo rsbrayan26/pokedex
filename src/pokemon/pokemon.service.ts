@@ -9,6 +9,7 @@ import { UpdatePokemonDto } from "./dto/update-pokemon.dto";
 import { Pokemon } from "./entities/pokemon.entity";
 import { isValidObjectId, Model } from "mongoose";
 import { InjectModel } from "@nestjs/mongoose";
+import { PaginationDto } from "../common/dto/pagination.dto";
 
 @Injectable()
 export class PokemonService {
@@ -30,8 +31,20 @@ export class PokemonService {
     }
   }
 
-  findAll() {
-    return this.pokemonModel.find();
+  async findAll(paginationDto: PaginationDto) {
+    const { limit = 10, offset = 0 } = paginationDto;
+    // console.log({ limit, offset });
+    /**
+     * limit: Define el número máximo de documentos a devolver.
+     * offset: Define el número de documentos a omitir
+     */
+    return this.pokemonModel
+      .find({})
+      .sort({ no: 1 })
+      .skip(offset)
+      .limit(limit)
+      .select("-__v")
+      .exec(); // Usa exec() para manejar el resultado de manera más explícita
   }
 
   async findOne(searchPokemon: string) {
